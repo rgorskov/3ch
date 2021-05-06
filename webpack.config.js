@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = (env, options) => {
     const isDev = options.mode == 'development';
-    const isProd = (options.mode = 'production');
+    const isProd = options.mode == 'production';
 
     return {
         context: path.resolve(__dirname, 'src'),
@@ -20,6 +20,14 @@ module.exports = (env, options) => {
         },
         resolve: {
             extensions: ['.js', '.jsx'],
+        },
+        module: {
+            rules: [
+                {
+                    test: /\.jsx?$/,
+                    loader: 'babel-loader',
+                },
+            ],
         },
         plugins: [
             new HtmlWebpackPlugin({

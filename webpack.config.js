@@ -27,6 +27,22 @@ module.exports = (env, options) => {
                     test: /\.jsx?$/,
                     loader: 'babel-loader',
                 },
+                {
+                    test: /\.css$/,
+                    use: [
+                        'style-loader',
+                        {
+                            loader: 'css-loader',
+                            options: {
+                                modules: {
+                                    localIdentName:
+                                        '[name]__[local]_[hash:base64:5]',
+                                    auto: /\.module\.\w+$/i,
+                                },
+                            },
+                        },
+                    ],
+                },
             ],
         },
         plugins: [

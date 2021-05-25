@@ -17,6 +17,8 @@ module.exports = (env, options) => {
         devServer: {
             contentBase: path.resolve(__dirname, 'dist'),
             port: 3000,
+            hot: true,
+            open: true,
         },
         resolve: {
             extensions: ['.js', '.jsx'],
@@ -25,6 +27,7 @@ module.exports = (env, options) => {
             rules: [
                 {
                     test: /\.jsx?$/,
+                    exclude: /node_modules/,
                     use: {
                         loader: 'babel-loader',
                         options: {

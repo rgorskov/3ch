@@ -1,4 +1,9 @@
 import axios from 'axios';
+import {
+    decodeDocument,
+    encodeDocument,
+    getDocumentId,
+} from './firestoreUtils';
 
 const api = axios.create({
     baseURL:
@@ -22,6 +27,11 @@ export const getAllThreads = async () => {
             },
         },
     });
+
+    const entries = response.data;
+    entries.forEach((x) => {
+        console.log(decodeDocument({ collectionName: 'threads', ...x }));
+    });
 };
 
 export const getThreadPosts = async (threadId) => {
@@ -41,11 +51,16 @@ export const getThreadPosts = async (threadId) => {
             },
         },
     });
+
+    const entries = response.data;
+    entries.forEach((x) => {
+        console.log(decodeDocument({ collectionName: 'posts', ...x }));
+    });
 };
 
 export const createThread = async ({ text }) => {
     const responseThread = await api.post('/threads', { fields: {} });
-    const threadId = responseThread.data.name.match(/(?<=\/)\w+$/)[0];
+    const threadId = getDocumentId(responseThread.data);
     const responseOpPost = await api.post(`/threads/${threadId}/posts`, {
         fields: {
             op: { booleanValue: true },

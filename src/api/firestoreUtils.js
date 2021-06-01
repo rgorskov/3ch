@@ -1,11 +1,14 @@
 import valueTypes from './valueTypes';
 
+const getTypeOf = (variable) =>
+    ({}.toString.call(variable).slice(8, -1).toLowerCase());
+
 const getDocumentId = (path, collectionName) => {
     const re = new RegExp(`(?<=${collectionName}\/).+?(?=\/|$)`);
     return path.match(re)[0];
 };
 
-const decodeField = (field) => {
+const parseField = (field) => {
     const type = Object.keys(field)[0];
     const value = field[type];
 
@@ -15,32 +18,70 @@ const decodeField = (field) => {
             return array.map(decodeField);
         case valueTypes.MAP:
             const fields = value.fields;
-            return decodeAllFields(fields);
+            return applyParserToFields(fields, parseField);
         default:
             return value;
     }
 };
 
-const decodeAllFields = (encodedFields) => {
+const createField = (data) => {
+    const type = getTypeOf(data);
+
+    switch (type) {
+        case 'string':
+            return {
+                [valueTypes.STRING]: data,
+            };
+        case 'number':
+            return {
+                [valueTypes.DOUBLE]: data,
+            };
+        case 'boolean':
+            return {
+                [valueTypes.BOOLEAN]: data,
+            };
+        case 'array':
+            return {
+                [valueTypes.ARRAY]: {
+                    values: data.map(createField),
+                },
+            };
+        case 'object':
+            return {
+                [valueTypes.MAP]: createDocument(data),
+            };
+        default:
+            return null;
+    }
+};
+
+const applyParserToFields = (rawData, parser) => {
     const fields = {};
 
-    for (let key in encodedFields) {
-        const encodedField = encodedFields[key];
-        fields[key] = decodeField(encodedField);
+    for (let key in rawData) {
+        const data = rawData[key];
+        fields[key] = parser(data);
     }
 
     return fields;
 };
 
-const encodeDocument = (object) => {};
-
-const decodeDocument = ({ document, collectionName }) => {
-    if (!document) return null;
+const createDocument = (object) => {
     return {
-        id: getDocumentId(document.name, collectionName),
-        createTime: document.createTime,
-        ...decodeAllFields(document.fields),
+        fields: applyParserToFields(object, createField),
     };
 };
 
-export { encodeDocument, decodeDocument, getDocumentId };
+const parseDocument = ({ document, collectionName }) => {
+    if (!document) return null;
+
+    const decodedFields = applyParserToFields(document.fields, parseField);
+
+    return {
+        id: getDocumentId(document.name, collectionName),
+        createTime: document.createTime,
+        ...decodedFields,
+    };
+};
+
+export { createDocument, parseDocument, getDocumentId };

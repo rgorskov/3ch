@@ -3,9 +3,11 @@ import valueTypes from './valueTypes';
 const getTypeOf = (variable) =>
     ({}.toString.call(variable).slice(8, -1).toLowerCase());
 
-const getDocumentId = (path, collectionName) => {
-    const re = new RegExp(`(?<=${collectionName}\/).+?(?=\/|$)`);
-    return path.match(re)[0];
+const getDocumentId = ({ name }, collectionName) => {
+    const re = collectionName
+        ? new RegExp(`(?<=${collectionName}\/).+?(?=\/|$)`)
+        : /\w+(?=$)/;
+    return name.match(re)[0];
 };
 
 const parseField = (field) => {
@@ -15,7 +17,7 @@ const parseField = (field) => {
     switch (type) {
         case valueTypes.ARRAY:
             const array = value.values;
-            return array.map(decodeField);
+            return array.map(parseField);
         case valueTypes.MAP:
             const fields = value.fields;
             return applyParserToFields(fields, parseField);
@@ -72,13 +74,13 @@ const createDocument = (object) => {
     };
 };
 
-const parseDocument = ({ document, collectionName }) => {
+const parseDocument = ({ document }) => {
     if (!document) return null;
 
     const decodedFields = applyParserToFields(document.fields, parseField);
 
     return {
-        id: getDocumentId(document.name, collectionName),
+        id: getDocumentId(document),
         createTime: document.createTime,
         ...decodedFields,
     };

@@ -25,8 +25,14 @@ export const getAllThreads = async () => {
     });
 
     const entries = response.data;
-    const threads = entries.map((x) => {
-        return parseDocument({ collectionName: 'threads', ...x });
+    const threads = entries.map((entry) => {
+        const threadId = getDocumentId(entry.document, 'threads');
+        const post = parseDocument(entry);
+
+        return {
+            threadId,
+            post,
+        };
     });
 
     return threads;
@@ -52,7 +58,7 @@ export const getThreadPosts = async (threadId) => {
 
     const entries = response.data;
     const posts = entries.map((x) => {
-        return parseDocument({ collectionName: 'posts', ...x });
+        return parseDocument(x);
     });
 
     return posts;
@@ -62,7 +68,7 @@ export const createThread = async () => {
     const newThread = createDocument({});
 
     const response = await api.post('/threads', newThread);
-    const threadId = getDocumentId(response.data.name, 'threads');
+    const threadId = getDocumentId(response.data);
 
     return threadId;
 };
@@ -71,7 +77,7 @@ export const createPost = async (threadId, postData) => {
     const newPost = createDocument({ ...postData, op: false });
 
     const response = await api.post(`/threads/${threadId}/posts`, newPost);
-    const postId = getDocumentId(response.data.name, 'posts');
+    const postId = getDocumentId(response.data);
 
     return postId;
 };

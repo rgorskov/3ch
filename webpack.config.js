@@ -13,12 +13,14 @@ module.exports = (env, options) => {
             path: path.resolve(__dirname, 'dist'),
             filename: isDev ? 'bundle.js' : 'bundle.[contenthash].js',
             clean: true,
+            publicPath: '/',
         },
         devServer: {
             contentBase: path.resolve(__dirname, 'dist'),
             port: 3000,
             hot: true,
             open: true,
+            historyApiFallback: true,
         },
         resolve: {
             extensions: ['.js', '.jsx'],

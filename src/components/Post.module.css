@@ -19,6 +19,10 @@
     color: #444;
 }
 
+.info a {
+    padding-left: 10px;
+}
+
 .text {
     margin: 16px;
 }

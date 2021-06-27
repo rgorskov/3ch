@@ -8,13 +8,34 @@ const ThreadsList = () => {
         <div>
             <Link to="/thread/create">Создать тред</Link>
             <div className={s.thread}>
-                <Post op={true} text={'OP post'} id={1} date={new Date()} />
+                <Post
+                    op={true}
+                    text={'OP post'}
+                    id={1}
+                    date={new Date()}
+                    showLink
+                    threadId={1}
+                />
             </div>
             <div className={s.thread}>
-                <Post op={true} text={'OP post'} id={1} date={new Date()} />
+                <Post
+                    op={true}
+                    text={'OP post'}
+                    id={1}
+                    date={new Date()}
+                    showLink
+                    threadId={1}
+                />
             </div>
             <div className={s.thread}>
-                <Post op={true} text={'OP post'} id={1} date={new Date()} />
+                <Post
+                    op={true}
+                    text={'OP post'}
+                    id={1}
+                    date={new Date()}
+                    showLink
+                    threadId={1}
+                />
             </div>
         </div>
     );

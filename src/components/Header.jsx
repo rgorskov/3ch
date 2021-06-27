@@ -1,7 +1,7 @@
 import React from 'react';
 
-const ThreadsList = () => {
-    return <div>3ch</div>
+const Header = () => {
+    return <div>3ch</div>;
 };
 
-export default ThreadsList
+export default Header;

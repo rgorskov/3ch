@@ -1,0 +1,10 @@
+.controlsContainer {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.divider {
+    display: inline-block;
+    margin: 0 6px;
+}

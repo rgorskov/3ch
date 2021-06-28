@@ -1,18 +1,22 @@
 import React from 'react';
 import { render } from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
+import moment from 'moment';
+import { Provider } from 'react-redux';
 import App from './App';
 import './index.css';
 import * as api from './api';
-import { BrowserRouter } from 'react-router-dom';
-import moment from 'moment';
+import store from './data/store';
 
 moment.locale('ru');
 
 window.api = api;
 
 render(
-    <BrowserRouter>
-        <App />
-    </BrowserRouter>,
+    <Provider store={store}>
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
+    </Provider>,
     document.getElementById('app')
 );

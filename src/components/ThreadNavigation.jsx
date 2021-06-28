@@ -7,19 +7,19 @@ const ThreadNavigation = ({ top, bottom, postsCount }) => {
         <div className={s.controlsContainer}>
             <div className={s.controls}>
                 <Link to="/">Назад</Link>
-                <span className={s.divider}>|</span>
+                <span className={s.divider}></span>
 
                 {bottom && (
                     <>
                         <a href="#top">Наверх</a>
-                        <span className={s.divider}>|</span>
+                        <span className={s.divider}></span>
                     </>
                 )}
 
                 {top && (
                     <>
                         <a href="#bottom">Вниз</a>
-                        <span className={s.divider}>|</span>
+                        <span className={s.divider}></span>
                     </>
                 )}
 

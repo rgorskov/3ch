@@ -8,3 +8,7 @@
     display: inline-block;
     margin: 0 6px;
 }
+
+.divider::after {
+    content: '|';
+}

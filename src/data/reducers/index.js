@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import threads from './reducers/threads';
+import threads from './threads';
 
-export const reducers = combineReducers({
+export default combineReducers({
     threads,
 });

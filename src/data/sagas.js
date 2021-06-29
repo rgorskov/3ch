@@ -1,15 +1,27 @@
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
 import { getAllThreads } from '../api';
-import { getThreadsSuccess, threadActions } from './actions';
+import {
+    getThreads,
+    getThreadsSuccess,
+    setThreadsFetching,
+    setThreadsLoaded,
+} from './actions';
 
 function* getThreadsWorker() {
+    yield put(setThreadsFetching(true));
+
     const threads = yield call(getAllThreads);
 
-    yield put(getThreadsSuccess(threads));
+    yield all([
+        put(setThreadsFetching(false)),
+        put(setThreadsLoaded()),
+        put(getThreadsSuccess(threads)),
+    ]);
 }
 
 function* watchGetThreads() {
-    yield takeEvery(threadActions.GET_THREADS, getThreadsWorker);
+    const action = getThreads().type;
+    yield takeEvery(action, getThreadsWorker);
 }
 
 export default function* rootSaga() {

@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import App from './App';
 import './index.css';
 import * as api from './api';
-import store from './data/store';
+import store from './data';
 
 moment.locale('ru');
 

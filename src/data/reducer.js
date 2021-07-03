@@ -6,7 +6,7 @@
         {
             id: string,
             postsLoaded: bool,
-            isFetching: bool,
+            postsFetching: bool,
             posts: [
                 {
                     id: string,
@@ -44,9 +44,57 @@ export default (state = initialState, action) => {
                 return {
                     id: t.threadId,
                     postsLoaded: false,
-                    isFetching: false,
+                    postsFetching: false,
                     posts: [t.post],
                 };
+            });
+
+            return {
+                ...state,
+                threads,
+            };
+        }
+        case threadActions.SET_POSTS_LOADED: {
+            const threads = state.threads.map((t) => {
+                if (t.id == action.payload) {
+                    return {
+                        ...t,
+                        postsLoaded: true,
+                    };
+                }
+                return t;
+            });
+
+            return {
+                ...state,
+                threads,
+            };
+        }
+        case threadActions.SET_POSTS_FETCHING: {
+            const threads = state.threads.map((t) => {
+                if (t.id == action.payload.threadId) {
+                    return {
+                        ...t,
+                        postsFetching: action.payload.isFetching,
+                    };
+                }
+                return t;
+            });
+
+            return {
+                ...state,
+                threads,
+            };
+        }
+        case threadActions.GET_POSTS_SUCCESS: {
+            const threads = state.threads.map((t) => {
+                if (t.id == action.payload.threadId) {
+                    return {
+                        ...t,
+                        posts: action.payload.posts,
+                    };
+                }
+                return t;
             });
 
             return {

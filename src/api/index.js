@@ -64,6 +64,17 @@ export const getThreadPosts = async (threadId) => {
     return posts;
 };
 
+export const getAllThreadPosts = async (threadId) => {
+    const response = await api.get(`/threads/${threadId}/posts`);
+
+    const entries = response.data.documents;
+    const posts = entries.map((x) => {
+        return parseDocument({ document: x });
+    });
+
+    return posts;
+};
+
 export const createThread = async () => {
     const newThread = createDocument({});
 

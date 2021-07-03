@@ -34,3 +34,27 @@ export const setThreadsLoaded = () => {
         type: threadActions.SET_LOADED,
     };
 };
+
+export const getPosts = (threadId) => ({
+    type: threadActions.GET_POSTS,
+    payload: threadId,
+});
+
+export const getPostsSuccess = (threadId, posts) => ({
+    type: threadActions.GET_POSTS_SUCCESS,
+    payload: { threadId, posts },
+});
+
+export const setPostsFetching = (threadId, isFetching) => {
+    return {
+        type: threadActions.SET_POSTS_FETCHING,
+        payload: { threadId, isFetching },
+    };
+};
+
+export const setPostsLoaded = (threadId) => {
+    return {
+        type: threadActions.SET_POSTS_LOADED,
+        payload: threadId,
+    };
+};

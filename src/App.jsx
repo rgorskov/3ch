@@ -10,7 +10,7 @@ const App = () => {
         <div className="wrapper">
             <Header />
             <Route component={ThreadsList} path="/" exact />
-            <Route component={Thread} path="/thread/:threadId(\d+)" />
+            <Route component={Thread} path="/thread/:threadId(\w{20})" />
             <Route component={CreateThread} path="/thread/create" />
         </div>
     );

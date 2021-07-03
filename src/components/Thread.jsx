@@ -34,11 +34,13 @@ const Thread = () => {
 
     return (
         <div>
-            <ThreadNavigation top postsCount={3} />
-            {posts.map((p) => {
-                return <Post date={new Date(p.createTime)} {...p} key={p.id} />;
-            })}
-            <ThreadNavigation bottom postsCount={3} />
+            <ThreadNavigation postsCount={posts.length}>
+                {posts.map((p) => {
+                    return (
+                        <Post date={new Date(p.createTime)} {...p} key={p.id} />
+                    );
+                })}
+            </ThreadNavigation>
             <NewPost />
         </div>
     );

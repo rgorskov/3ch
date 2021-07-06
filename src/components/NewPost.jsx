@@ -1,10 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const NewPost = () => {
+const NewPost = ({ onAddPost }) => {
+    const [message, setMessage] = useState('');
+
+    const onInputMessage = (e) => {
+        setMessage(e.target.value);
+    };
+
+    const onSendButtonClick = () => {
+        const post = {
+            text: message,
+        };
+        onAddPost(post);
+        setMessage('');
+    };
+
     return (
         <div>
-            <textarea></textarea>
-            <button>Отправить</button>
+            <textarea onChange={onInputMessage} value={message}></textarea>
+            <button onClick={onSendButtonClick}>Отправить</button>
         </div>
     );
 };

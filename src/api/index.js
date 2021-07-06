@@ -93,8 +93,8 @@ export const createPost = async (threadId, postData) => {
     const newPost = createDocument({ ...postData });
 
     const response = await api.post(`/threads/${threadId}/posts`, newPost);
-    const postId = getDocumentId(response.data);
+    const id = getDocumentId(response.data);
     const createTime = getCreateTime(response.data);
 
-    return { postId, createTime };
+    return { id, createTime };
 };

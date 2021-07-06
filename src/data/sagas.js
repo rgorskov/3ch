@@ -1,10 +1,12 @@
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
-import { getAllThreadPosts, getAllThreads } from '../api';
+import { createPost, getAllThreadPosts, getAllThreads } from '../api';
 import {
     getPosts,
     getPostsSuccess,
     getThreads,
     getThreadsSuccess,
+    sendPost,
+    sendPostSuccess,
     setPostsFetching,
     setPostsLoaded,
     setThreadsFetching,
@@ -45,6 +47,21 @@ function* watchGetPosts() {
     yield takeEvery(action, getPostsWorker);
 }
 
+function* sendPostWorker({ payload: { threadId, post } }) {
+    const newPostData = yield call(createPost, threadId, post);
+
+    yield put(sendPostSuccess(threadId, { ...post, ...newPostData }));
+}
+
+function* watchSendPost() {
+    const action = sendPost().type;
+    yield takeEvery(action, sendPostWorker);
+}
+
 export default function* rootSaga() {
-    yield all([fork(watchGetThreads), fork(watchGetPosts)]);
+    yield all([
+        fork(watchGetThreads),
+        fork(watchGetPosts),
+        fork(watchSendPost),
+    ]);
 }

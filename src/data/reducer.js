@@ -10,7 +10,7 @@
             posts: [
                 {
                     id: string,
-                    date,
+                    createTime,
                     text
                 }
             ]
@@ -97,6 +97,22 @@ export default (state = initialState, action) => {
                 return t;
             });
 
+            return {
+                ...state,
+                threads,
+            };
+        }
+        case threadActions.SEND_POST_SUCCESS: {
+            const threads = state.threads.map((t) => {
+                if (t.id != action.payload.threadId) {
+                    return t;
+                }
+
+                return {
+                    ...t,
+                    posts: [...t.posts, action.payload.post],
+                };
+            });
             return {
                 ...state,
                 threads,

@@ -58,3 +58,13 @@ export const setPostsLoaded = (threadId) => {
         payload: threadId,
     };
 };
+
+export const sendPost = (threadId, post) => ({
+    type: threadActions.SEND_POST,
+    payload: { threadId, post },
+});
+
+export const sendPostSuccess = (threadId, post) => ({
+    type: threadActions.SEND_POST_SUCCESS,
+    payload: { threadId, post },
+});

@@ -1,5 +1,10 @@
 import axios from 'axios';
-import { createDocument, parseDocument, getDocumentId } from './firestoreUtils';
+import {
+    createDocument,
+    parseDocument,
+    getDocumentId,
+    getCreateTime,
+} from './firestoreUtils';
 
 const api = axios.create({
     baseURL:
@@ -85,10 +90,11 @@ export const createThread = async () => {
 };
 
 export const createPost = async (threadId, postData) => {
-    const newPost = createDocument({ ...postData, op: false });
+    const newPost = createDocument({ ...postData });
 
     const response = await api.post(`/threads/${threadId}/posts`, newPost);
     const postId = getDocumentId(response.data);
+    const createTime = getCreateTime(response.data);
 
-    return postId;
+    return { postId, createTime };
 };

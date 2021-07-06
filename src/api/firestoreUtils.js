@@ -10,6 +10,8 @@ const getDocumentId = ({ name }, collectionName) => {
     return name.match(re)[0];
 };
 
+const getCreateTime = ({ createTime }) => createTime;
+
 const parseField = (field) => {
     const type = Object.keys(field)[0];
     const value = field[type];
@@ -81,9 +83,9 @@ const parseDocument = ({ document }) => {
 
     return {
         id: getDocumentId(document),
-        createTime: document.createTime,
+        createTime: getCreateTime(document),
         ...decodedFields,
     };
 };
 
-export { createDocument, parseDocument, getDocumentId };
+export { createDocument, parseDocument, getDocumentId, getCreateTime };

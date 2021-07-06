@@ -13,7 +13,6 @@ const Thread = () => {
         return state.threads.find((t) => t.id == threadId);
     });
     const posts = [...thread.posts].sort((a, b) => {
-        //debugger;
         const d1 = new Date(a.createTime),
             d2 = new Date(b.createTime);
         return d1 - d2;
@@ -37,10 +36,6 @@ const Thread = () => {
             dispatch(getPosts(threadId));
         }
     }, []);
-
-    // useEffect(() => {
-    //     posts
-    // }, [posts]);
 
     return (
         <div>

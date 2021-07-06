@@ -2,7 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import s from './NavigationPanel.module.css';
 
-const NavigationPanel = ({ top, bottom, postsCount }) => {
+const NavigationPanel = ({ top, bottom, postsCount, onUpdate }) => {
+    const onUpdateButtonClick = (e) => {
+        e.preventDefault();
+        onUpdate();
+    };
+
     return (
         <div className={s.controlsContainer}>
             <div className={s.controls}>
@@ -23,7 +28,9 @@ const NavigationPanel = ({ top, bottom, postsCount }) => {
                     </>
                 )}
 
-                <a href="#">Обновить</a>
+                <a href="#" onClick={onUpdateButtonClick}>
+                    Обновить
+                </a>
             </div>
             <div>
                 <span>{postsCount}</span>

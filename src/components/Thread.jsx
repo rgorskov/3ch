@@ -14,6 +14,10 @@ const Thread = () => {
     });
     const posts = [...thread.posts];
 
+    const updateThread = () => {
+        dispatch(getPosts(threadId));
+    };
+
     if (!thread) {
         return <div>Тред не найден</div>;
     }
@@ -34,7 +38,7 @@ const Thread = () => {
 
     return (
         <div>
-            <ThreadNavigation postsCount={posts.length}>
+            <ThreadNavigation postsCount={posts.length} onUpdate={updateThread}>
                 {posts.map((p) => {
                     return (
                         <Post date={new Date(p.createTime)} {...p} key={p.id} />
